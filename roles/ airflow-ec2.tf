@@ -62,7 +62,7 @@ resource "aws_iam_policy" "airflow_runtime" {
           "ecr:BatchGetImage"
         ]
 
-        Resource = "airflow"
+        Resource = "*"
       }
     ]
   })
