@@ -26,6 +26,7 @@ jobs:
               "inputs": {
                 "target_repository": "Housing-Intelligence/hi-role-management",
                 "terraform_directory": "roles",
-                "environment": "dev"
+                "environment": "dev",
+                "parameters_json": "{}"
               }
             }'
