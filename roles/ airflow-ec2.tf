@@ -36,7 +36,7 @@ resource "aws_iam_policy" "airflow_runtime" {
           "secretsmanager:GetSecretValue"
         ]
 
-        Resource = var.airflow_secret_arn
+        Resource = "*"
       },
 
       # ECR authentication
@@ -62,7 +62,7 @@ resource "aws_iam_policy" "airflow_runtime" {
           "ecr:BatchGetImage"
         ]
 
-        Resource = var.airflow_ecr_repository_arn
+        Resource = "airflow"
       }
     ]
   })
@@ -77,6 +77,5 @@ resource "aws_iam_role_policy_attachment" "airflow_runtime" {
 
 resource "aws_iam_instance_profile" "airflow_ec2" {
   name = "airflow-ec2-instance-profile"
-
   role = aws_iam_role.airflow_ec2.name
 }
