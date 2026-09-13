@@ -4,7 +4,7 @@ variable databricks_external_id {
 
 resource "aws_iam_role_policy" "databricks_s3" {
   name = "databricks-housing-s3-policy"
-  role = aws_iam_role.databricks_processed.id
+  role = aws_iam_role.databricks_data.id
 
   policy = jsonencode({
     Version = "2012-10-17"
