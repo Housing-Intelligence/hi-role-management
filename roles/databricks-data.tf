@@ -1,3 +1,7 @@
+variable databricks_external_id {
+  type        = string
+}
+
 resource "aws_iam_role_policy" "databricks_s3" {
   name = "databricks-housing-s3-policy"
   role = aws_iam_role.databricks_processed.id
