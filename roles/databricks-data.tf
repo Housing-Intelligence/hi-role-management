@@ -14,7 +14,7 @@ resource "aws_iam_role_policy" "databricks_s3" {
         Action = [
           "s3:ListBucket"
         ]
-        Resource = "arn:aws:s3:::housing-intelligence-data/*"
+        Resource = "arn:aws:s3:::housing-intelligence-data"
       },
       {
         Effect = "Allow"
@@ -24,6 +24,7 @@ resource "aws_iam_role_policy" "databricks_s3" {
           "s3:DeleteObject"
         ]
         Resource = [
+          "arn:aws:s3:::housing-intelligence-data/raw_data/*",
           "arn:aws:s3:::housing-intelligence-data/processed_data/*"
         ]
       }
