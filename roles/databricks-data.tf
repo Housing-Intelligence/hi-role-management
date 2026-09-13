@@ -12,14 +12,14 @@ resource "aws_iam_role_policy" "databricks_s3" {
       {
         Effect = "Allow"
         Action = [
-          "s3:ListBucket",
-          "s3:GetObject"
+          "s3:ListBucket"
         ]
-        Resource = "arn:aws:s3:::housing-intelligence-data"
+        Resource = "arn:aws:s3:::housing-intelligence-data/*"
       },
       {
         Effect = "Allow"
         Action = [
+          "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ]
