@@ -9,25 +9,25 @@ resource "aws_iam_role_policy" "databricks_s3" {
         Effect = "Allow"
         Action = [
           "s3:ListBucket"
+          "s3:GetObject"
         ]
         Resource = "arn:aws:s3:::housing-intelligence-data"
       },
       {
         Effect = "Allow"
         Action = [
-          "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ]
         Resource = [
-          "arn:aws:s3:::housing-intelligence-data/processed/*"
+          "arn:aws:s3:::housing-intelligence-data/processed_data/*"
         ]
       }
     ]
   })
 }
 
-resource "aws_iam_role" "databricks_processed" {
+resource "aws_iam_role" "databricks_data" {
   name = "databricks-housing-s3-role"
 
   assume_role_policy = jsonencode({
@@ -36,7 +36,7 @@ resource "aws_iam_role" "databricks_processed" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "这里放 Databricks 提供的 Principal"
+          AWS = "arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL"
         }
         Action = "sts:AssumeRole"
         Condition = {
