@@ -24,22 +24,28 @@ jobs:
       - name: Trigger platform CI/CD
         env:
           GH_TOKEN: ${{ secrets.CICD_TRIGGER_TOKEN }}
-          "DATABRICKS_ID": ${{ vars.DATABRICKS_ID }}
+          DATABRICKS_ID: ${{ vars.DATABRICKS_ID }}
         run: |
+          jq -n \
+            --arg ref "main" \
+            --arg target_repository "Housing-Intelligence/hi-role-management" \
+            --arg terraform_directory "roles" \
+            --arg environment "$DEPLOY_ENV" \
+            --arg parameters_json "{\"databricks_external_id\":\"$DATABRICKS_ID\"}" \
+            '{
+              ref: $ref,
+              inputs: {
+                target_repository: $target_repository,
+                terraform_directory: $terraform_directory,
+                environment: $environment,
+                parameters_json: $parameters_json
+              }
+            }' > payload.json
+
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
             https://api.github.com/repos/Housing-Intelligence/hi-platform-cicd/actions/workflows/terraform-apply.yml/dispatches \
-            -d '{
-              "ref": "main",
-              "inputs": {
-                "target_repository": "Housing-Intelligence/hi-role-management",
-                "terraform_directory": "roles",
-                "environment": "dev",
-                "parameters_json": "{
-                  "databricks_external_id":"${{}}"
-                }"
-              }
-            }'
+            -d @payload.json
