@@ -41,9 +41,10 @@ resource "aws_iam_role" "databricks_data" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = 【
+          AWS = [
             "arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL",
             "arn:aws:iam::844096318338:role/databricks-housing-s3-role"
+          ]
         }
         Action = "sts:AssumeRole"
         Condition = {
