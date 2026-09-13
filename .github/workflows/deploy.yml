@@ -2,10 +2,20 @@ name: Role Deployment
 
 on:
   workflow_dispatch:
-
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
 jobs:
   trigger-platform-cicd:
     runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ inputs.environment }}
 
     permissions:
       contents: read
@@ -14,6 +24,7 @@ jobs:
       - name: Trigger platform CI/CD
         env:
           GH_TOKEN: ${{ secrets.CICD_TRIGGER_TOKEN }}
+          "DATABRICKS_ID": ${{ vars.DATABRICKS_ID }}
         run: |
           curl -L \
             -X POST \
@@ -27,6 +38,8 @@ jobs:
                 "target_repository": "Housing-Intelligence/hi-role-management",
                 "terraform_directory": "roles",
                 "environment": "dev",
-                "parameters_json": "{}"
+                "parameters_json": "{
+                  "databricks_external_id":"${{}}"
+                }"
               }
             }'
