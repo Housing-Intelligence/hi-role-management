@@ -47,5 +47,5 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
-            https://api.github.com/repos/Housing-Intelligence/hi-platform-cicd/actions/workflows/terraform-apply.yml/dispatches \
+            https://api.github.com/repos/Housing-Intelligence/hi-platform-cicd/actions/workflows/terraform.yml/dispatches \
             -d @payload.json
