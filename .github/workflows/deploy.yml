@@ -25,6 +25,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CICD_TRIGGER_TOKEN }}
           DATABRICKS_ID: ${{ vars.DATABRICKS_ID }}
+          DEPLOY_ENV: ${{inputs.environment}}
         run: |
           jq -n \
             --arg ref "main" \
