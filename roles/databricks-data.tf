@@ -12,7 +12,9 @@ resource "aws_iam_role_policy" "databricks_s3" {
       {
         Effect = "Allow"
         Action = [
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:GetBucketNotification",
+          "s3:PutBucketNotification"
         ]
         Resource = "arn:aws:s3:::housing-intelligence-data"
       },
@@ -21,8 +23,7 @@ resource "aws_iam_role_policy" "databricks_s3" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:GetBucketNotification"
+          "s3:DeleteObject"
         ]
         Resource = [
           "arn:aws:s3:::housing-intelligence-data/raw_data/*",
