@@ -29,6 +29,70 @@ resource "aws_iam_role_policy" "databricks_s3" {
           "arn:aws:s3:::housing-intelligence-data/raw_data/*",
           "arn:aws:s3:::housing-intelligence-data/processed_data/*"
         ]
+      },
+      {
+        Sid    = "ManagedFileEventsSetup"
+        Effect = "Allow"
+
+        Action = [
+          "sns:ListSubscriptionsByTopic",
+          "sns:GetTopicAttributes",
+          "sns:SetTopicAttributes",
+          "sns:CreateTopic",
+          "sns:TagResource",
+          "sns:Publish",
+          "sns:Subscribe",
+
+          "sqs:CreateQueue",
+          "sqs:DeleteMessage",
+          "sqs:ReceiveMessage",
+          "sqs:SendMessage",
+          "sqs:GetQueueUrl",
+          "sqs:GetQueueAttributes",
+          "sqs:SetQueueAttributes",
+          "sqs:TagQueue",
+          "sqs:ChangeMessageVisibility",
+          "sqs:PurgeQueue"
+        ]
+
+        Resource = [
+          "arn:aws:sqs:*:*:csms-*",
+          "arn:aws:sns:*:*:csms-*"
+        ]
+      },
+
+      # List managed File Events resources
+      {
+        Sid    = "ManagedFileEventsList"
+        Effect = "Allow"
+
+        Action = [
+          "sqs:ListQueues",
+          "sqs:ListQueueTags",
+          "sns:ListTopics"
+        ]
+
+        Resource = [
+          "arn:aws:sqs:*:*:csms-*",
+          "arn:aws:sns:*:*:csms-*"
+        ]
+      },
+
+      # Cleanup managed File Events resources
+      {
+        Sid    = "ManagedFileEventsTeardown"
+        Effect = "Allow"
+
+        Action = [
+          "sns:Unsubscribe",
+          "sns:DeleteTopic",
+          "sqs:DeleteQueue"
+        ]
+
+        Resource = [
+          "arn:aws:sqs:*:*:csms-*",
+          "arn:aws:sns:*:*:csms-*"
+        ]
       }
     ]
   })
